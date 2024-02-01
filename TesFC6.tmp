@@ -1,0 +1,109 @@
+[gd_scene load_steps=8 format=3 uid="uid://v6mbe0beccsy"]
+
+[ext_resource type="Script" path="res://Test.gd" id="1_ofjj8"]
+[ext_resource type="Script" path="res://GravityObj.gd" id="2_7l1qk"]
+[ext_resource type="Script" path="res://SetWPos.gd" id="3_04jkt"]
+[ext_resource type="Shader" path="res://GasGiant.gdshader" id="3_d65sa"]
+[ext_resource type="Script" path="res://MoveCam.gd" id="4_1muce"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y2aew"]
+render_priority = 0
+shader = ExtResource("3_d65sa")
+
+[sub_resource type="Environment" id="Environment_yrmyg"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(0.2, 0.427451, 1, 1)
+ambient_light_energy = 0.63
+
+[node name="Node3D" type="Node3D" node_paths=PackedStringArray("Bodies")]
+script = ExtResource("1_ofjj8")
+Bodies = [NodePath("CSGSphere3D"), NodePath("CSGSphere3D2"), NodePath("Sun"), NodePath("Sun2")]
+IndependentDeltatime = 0.167
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="." node_paths=PackedStringArray("Transform", "Root")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.9114, 9.53674e-07, 6.36826)
+script = ExtResource("2_7l1qk")
+Mass = 5
+FVelocity = Vector4(0, 0, 1, 0)
+Transform = NodePath(".")
+Enabled = true
+Root = NodePath("..")
+
+[node name="CSGSphere3D2" type="CSGSphere3D" parent="." node_paths=PackedStringArray("Transform", "Root")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.08163, 4.76837e-07, -16.2124)
+script = ExtResource("2_7l1qk")
+Mass = 5
+Transform = NodePath(".")
+Enabled = true
+Root = NodePath("..")
+
+[node name="Sun" type="CSGSphere3D" parent="." node_paths=PackedStringArray("Transform", "Root")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.5629, -0.441236, -7.99201)
+material_override = SubResource("ShaderMaterial_y2aew")
+radial_segments = 24
+rings = 12
+script = ExtResource("2_7l1qk")
+Mass = 100
+BaseScale = 8.0
+FVelocity = Vector4(-1, 0, 1, 0)
+Transform = NodePath("../CSGSphere3D2")
+Enabled = true
+Root = NodePath("..")
+Trength = 4.0
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.66283, -0.441236, -5.89904)
+light_color = Color(1, 1, 0.65098, 1)
+light_energy = 0.0
+omni_range = 228.662
+
+[node name="Sun2" type="CSGSphere3D" parent="." node_paths=PackedStringArray("Transform", "Root")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.897, 5, -23.407)
+radial_segments = 24
+rings = 12
+script = ExtResource("2_7l1qk")
+Mass = 100
+BaseScale = 8.0
+FVelocity = Vector4(1, 0, -1, 0)
+Transform = NodePath("../CSGSphere3D2")
+Enabled = true
+Root = NodePath("..")
+Trength = 4.0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0.375418, 23.2404, 14.5949)
+environment = SubResource("Environment_yrmyg")
+current = true
+fov = 90.0
+size = 10.1
+far = 616.83
+script = ExtResource("4_1muce")
+ViewSensitivity = null
+
+[node name="Control" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HSlider" type="HSlider" parent="Control" node_paths=PackedStringArray("Root")]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 6.0
+offset_right = 162.0
+offset_bottom = 22.0
+min_value = -10.0
+max_value = 10.0
+step = 0.25
+script = ExtResource("3_04jkt")
+Root = NodePath("../..")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 26.0
+offset_right = 165.0
+offset_bottom = 66.0
+text = "W Position"

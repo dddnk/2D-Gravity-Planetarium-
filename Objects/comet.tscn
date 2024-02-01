@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bnyb58xet4nbq"]
+
+[ext_resource type="Texture2D" uid="uid://ce2f4ywlv4okd" path="res://Ball.png" id="1_vahcx"]
+[ext_resource type="Script" path="res://Scripts/GravityObj.gd" id="2_xoj8p"]
+
+[node name="Comet" type="Sprite2D"]
+texture = ExtResource("1_vahcx")
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 8)
+script = ExtResource("2_xoj8p")
+Mass = 10

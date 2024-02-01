@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://nu54ji3svv7n"]
+
+[ext_resource type="Texture2D" uid="uid://ce2f4ywlv4okd" path="res://Ball.png" id="1_6s2if"]
+[ext_resource type="Script" path="res://Scripts/GravityObj.gd" id="2_jtduk"]
+
+[node name="Sun" type="Sprite2D"]
+texture = ExtResource("1_6s2if")
+region_enabled = true
+region_rect = Rect2(0, 24, 8, 8)
+script = ExtResource("2_jtduk")
+Mass = 300
+Radius = 4

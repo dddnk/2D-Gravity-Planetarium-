@@ -1,0 +1,25 @@
+[gd_scene load_steps=8 format=3 uid="uid://c8mr8230b444u"]
+
+[ext_resource type="Script" path="res://Scripts/Test.gd" id="1_ofjj8"]
+[ext_resource type="PackedScene" uid="uid://bqtt4pebyq3gh" path="res://Objects/small_planet.tscn" id="3_0m2ow"]
+[ext_resource type="PackedScene" uid="uid://bnyb58xet4nbq" path="res://Objects/comet.tscn" id="3_cinav"]
+[ext_resource type="Script" path="res://Scripts/MoveCam.gd" id="4_1muce"]
+[ext_resource type="PackedScene" uid="uid://b7j24ob77refh" path="res://Objects/large_planet.tscn" id="4_vl7b7"]
+[ext_resource type="PackedScene" uid="uid://nu54ji3svv7n" path="res://Objects/sun.tscn" id="5_qdc1f"]
+[ext_resource type="PackedScene" uid="uid://cd1ar2pueqi8" path="res://Objects/small_bh.tscn" id="6_wmgrm"]
+
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("RootNode")]
+script = ExtResource("1_ofjj8")
+Mode = 0
+Theta = 1.0
+RootNode = NodePath("Root")
+IndependentDeltatime = 0.05
+BodiesList = Array[PackedScene]([ExtResource("3_cinav"), ExtResource("3_0m2ow"), ExtResource("4_vl7b7"), ExtResource("5_qdc1f"), ExtResource("6_wmgrm")])
+Quantities = Array[int]([1000, 50, 25, 12, 4])
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(86, 29)
+script = ExtResource("4_1muce")
+ViewSensitivity = 25.0
+
+[node name="Root" type="Node2D" parent="."]

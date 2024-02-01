@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://cd1ar2pueqi8"]
+
+[ext_resource type="Texture2D" uid="uid://ce2f4ywlv4okd" path="res://Ball.png" id="1_ta375"]
+[ext_resource type="Script" path="res://Scripts/GravityObj.gd" id="2_fsuwj"]
+
+[node name="Small BH" type="Sprite2D"]
+texture = ExtResource("1_ta375")
+region_enabled = true
+region_rect = Rect2(0, 32, 8, 8)
+script = ExtResource("2_fsuwj")
+Mass = 1500
+Radius = 4

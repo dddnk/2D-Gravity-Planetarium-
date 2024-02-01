@@ -1,0 +1,101 @@
+[gd_scene load_steps=9 format=3 uid="uid://c8mr8230b444u"]
+
+[ext_resource type="Script" path="res://Test.gd" id="1_ofjj8"]
+[ext_resource type="Script" path="res://GravityObj.gd" id="2_7l1qk"]
+[ext_resource type="Material" uid="uid://wntwi5fnofbm" path="res://Materials/Asteroid.tres" id="3_k7w25"]
+[ext_resource type="Script" path="res://MoveCam.gd" id="4_1muce"]
+[ext_resource type="Material" uid="uid://chop6fwbdalvt" path="res://Materials/Hypergreen.tres" id="4_vlw8d"]
+[ext_resource type="Script" path="res://WPosLabel.gd" id="6_xnfct"]
+[ext_resource type="Script" path="res://FPSCounter.gd" id="7_m2gma"]
+
+[sub_resource type="Environment" id="Environment_yrmyg"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.5
+
+[node name="Node3D" type="Node3D" node_paths=PackedStringArray("Bodies")]
+script = ExtResource("1_ofjj8")
+Bodies = [NodePath("CSGSphere3D"), NodePath("CSGSphere3D2"), NodePath("Sun"), NodePath("Sun2")]
+IndependentDeltatime = 0.017
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="." node_paths=PackedStringArray("Transform", "Root")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.9114, 9.53674e-07, 6.36826)
+script = ExtResource("2_7l1qk")
+Mass = 5
+FVelocity = Vector4(0, 0, 1, 0)
+Transform = NodePath(".")
+Enabled = true
+Root = NodePath("..")
+
+[node name="CSGSphere3D2" type="CSGSphere3D" parent="." node_paths=PackedStringArray("Transform", "Root")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.08163, 4.76837e-07, -16.2124)
+material_override = ExtResource("3_k7w25")
+script = ExtResource("2_7l1qk")
+Mass = 5
+Transform = NodePath(".")
+Enabled = true
+Root = NodePath("..")
+
+[node name="Sun" type="CSGSphere3D" parent="." node_paths=PackedStringArray("Transform", "Root")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.38004, -0.441236, -48.9307)
+material_override = ExtResource("4_vlw8d")
+cast_shadow = 0
+radial_segments = 24
+rings = 12
+script = ExtResource("2_7l1qk")
+Mass = 250
+BaseScale = 8.0
+Transform = NodePath("../CSGSphere3D2")
+Enabled = true
+Root = NodePath("..")
+Trength = 4.0
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Sun"]
+light_energy = 3.078
+omni_range = 180.512
+
+[node name="Sun2" type="CSGSphere3D" parent="." node_paths=PackedStringArray("Transform", "Root")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.65729, -0.441236, -22.9307)
+cast_shadow = 0
+radial_segments = 24
+rings = 12
+script = ExtResource("2_7l1qk")
+Mass = 10000
+PosW = -60.0
+Transform = NodePath("../CSGSphere3D2")
+Enabled = true
+Root = NodePath("..")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0.375418, 23.2404, 14.5949)
+environment = SubResource("Environment_yrmyg")
+current = true
+fov = 90.0
+size = 10.1
+far = 616.83
+script = ExtResource("4_1muce")
+LookAround = false
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WPos" type="Label" parent="Control" node_paths=PackedStringArray("Root")]
+layout_mode = 0
+offset_right = 110.0
+offset_bottom = 23.0
+text = "W: 0"
+script = ExtResource("6_xnfct")
+Root = NodePath("../..")
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 1175.0
+offset_top = 8.0
+offset_right = 1253.0
+offset_bottom = 34.0
+text = "FPS: %s"
+script = ExtResource("7_m2gma")
