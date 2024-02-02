@@ -22,10 +22,15 @@ const SpawnRange:float = 600
 const NodePrefab:PackedScene = preload('res://bh_node.tscn')
 const SpriteSizes:Dictionary = { 30: 8,65:16,250:24,8000:32 }
 
+#Helper Functions
 func FastAbs(A:float) -> float:
 	return A if A >= 0 else -A
+
 func DstSqr(Delta:Vector2) -> float:
 	return Delta.x * Delta.x + Delta.y * Delta.y
+
+func RawForceCalcuation(d:Vector2,AMass:float,BMass:float,rsq:float) -> Vector2:
+	return (G * BMass / rsq) * d
 
 func SpriteUpdate(A:Sprite2D) -> void:
 	var MS:float = A.Mass
@@ -148,7 +153,7 @@ func CalculateParForce(A:Sprite2D,B:Node2D,D:float,DeltaPos:Vector2,R:float) -> 
 			CH.visible = false
 			EraseSize += 1
 			return (A.Velocity * A.Mass + CH.Velocity * CH.Mass) / A.Mass
-	return ((G * B.Mass / Dst) * DeltaPos)
+	return RawForceCalcuation(DeltaPos,A.Mass,B.Mass,R)
 
 func CalculateTreeForce(A,B) -> Vector2:
 	var DeltaPos:Vector2 = B.COM - A.position
@@ -203,8 +208,7 @@ func LegacyCalculate(Dt) -> void:
 					SpriteUpdate(body)
 					EraseList.append(other_body)
 				else:
-					var f = G * other_body.Mass / PSQ
-					a += f*d
+					a += RawForceCalcuation(d,body.Mass,other_body.Mass,PSQ) 
 		body.Velocity += a*Dt
 		body.position += body.Velocity * Dt
 	for v in EraseList:
